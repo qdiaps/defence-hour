@@ -20,7 +20,9 @@ namespace Core.Player
         {
             if (_input == null)
                 return;
-            _rigidbody.linearVelocity = _input.GetInput() * _speed;
+            InputData input = _input.GetInput();
+            _rigidbody.linearVelocity = input.Movement * _speed;
+            _rigidbody.rotation = input.Rotation;
         }
 
         public void Construct(InputHandler input)

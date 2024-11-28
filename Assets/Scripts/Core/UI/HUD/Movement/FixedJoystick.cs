@@ -11,6 +11,7 @@ namespace Core.UI.HUD.Movement
         [SerializeField] private RectTransform _background;
         [SerializeField] private RectTransform _handle;
         [SerializeField] private Canvas _canvas;
+        [SerializeField] private bool _canResetOnUp = true;
 
         private Vector2 _backgroundPosition;
         private Vector2 _backgroundRadius;
@@ -34,7 +35,8 @@ namespace Core.UI.HUD.Movement
         public void OnPointerUp(PointerEventData eventData)
         {
             _handle.anchoredPosition = Vector2.zero;
-            Input = Vector2.zero;
+            if (_canResetOnUp)
+                Input = Vector2.zero;
         }
 
         public void OnDrag(PointerEventData eventData)
