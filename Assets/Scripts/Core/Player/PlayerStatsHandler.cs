@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Core.UI.HUD.Stats;
+using Core.Services.PauseService;
 
 namespace Core.Player
 {
@@ -8,13 +9,15 @@ namespace Core.Player
     {
         private StatsUpdater _updater;
         private PlayerStats _stats;
+        private PauseHandler _pause;
 
-        public void Construct(StatsUpdater updater)
+        public void Construct(StatsUpdater updater, PauseHandler pause)
         {
             _stats = new PlayerStats(10, 10, 10, 10);
             _updater = updater;
             _updater.UpdateAllStats(_stats.Health, _stats.Satiety, _stats.Thirst, 
                 _stats.Fatigue);
+            _pause = pause;
             StartCoroutine(DecreaseStatsOverTime());
         }
 
@@ -72,6 +75,8 @@ namespace Core.Player
             while (true)
             {
                 yield return new WaitForSeconds(1f);
+                if (_pause.IsPause)
+                    continue;
                 IncreaseSatiety(-0.2f);
                 IncreaseThirst(-0.2f);
                 IncreaseFatigue(-0.05f);
