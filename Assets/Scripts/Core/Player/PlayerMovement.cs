@@ -11,10 +11,8 @@ namespace Core.Player
         private Rigidbody2D _rigidbody;
         private InputHandler _input;
 
-        private void Awake()
-        {
+        private void Awake() =>
             _rigidbody = GetComponent<Rigidbody2D>();
-        }
 
         private void FixedUpdate()
         {
@@ -25,9 +23,7 @@ namespace Core.Player
             _rigidbody.rotation = input.Rotation;
         }
 
-        public void Construct(InputHandler input)
-        {
+        public void Construct(InputHandler input) =>
             _input = input;
-        }
     }
 }
