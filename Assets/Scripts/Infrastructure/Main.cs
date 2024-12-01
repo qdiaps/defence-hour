@@ -16,6 +16,7 @@ namespace Infrastructure
         [Header("Scripts")]
         [SerializeField] private FixedJoystick _joystickMovement;
         [SerializeField] private FixedJoystick _joystickRotation;
+        [SerializeField] private SwipeHandler _swipeHandler;
         [SerializeField] private StatsUpdater _statsUpdater;
         [SerializeField] private PauseHandler _pauseHandler;
 
@@ -30,7 +31,7 @@ namespace Infrastructure
 
             var player = Instantiate(_playerPrefab, _playerSpawnPoint.position, Quaternion.identity);
             var playerMovement = player.GetComponent<PlayerMovement>();
-            playerMovement.Construct(input, _pauseHandler);
+            playerMovement.Construct(input, _pauseHandler, _swipeHandler);
             player.GetComponent<PlayerStatsHandler>().Construct(_statsUpdater, _pauseHandler);
 
             _camera.Follow = player.transform;
