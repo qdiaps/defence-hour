@@ -7,20 +7,18 @@ namespace Core.UI.HUD.Stats
     {
         [SerializeField] private Image _health;
         [SerializeField] private Image _satiety;
-        [SerializeField] private Image _thirst;
         [SerializeField] private Image _fatigue;
 
         private void Awake()
         {
-            if (_health == null || _satiety == null || _thirst == null || _fatigue == null)
+            if (_health == null || _satiety == null || _fatigue == null)
                 Debug.LogError($"{name}: field(-s) is null!");
         }
 
-        public void UpdateAllStats(float health, float satiety, float thirst, float fatigue)
+        public void UpdateAllStats(float health, float satiety, float fatigue)
         {
             UpdateHealth(health);
             UpdateSatiety(satiety);
-            UpdateThirst(thirst);
             UpdateFatigue(fatigue);
         }
 
@@ -29,9 +27,6 @@ namespace Core.UI.HUD.Stats
 
         public void UpdateSatiety(float value) =>
             UpdateStat(_satiety, value);
-
-        public void UpdateThirst(float value) =>
-            UpdateStat(_thirst, value);
 
         public void UpdateFatigue(float value) =>
             UpdateStat(_fatigue, value);

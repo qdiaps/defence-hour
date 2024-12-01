@@ -13,10 +13,9 @@ namespace Core.Player
 
         public void Construct(StatsUpdater updater, PauseHandler pause)
         {
-            _stats = new PlayerStats(10, 10, 10, 10);
+            _stats = new PlayerStats(10, 10, 10);
             _updater = updater;
-            _updater.UpdateAllStats(_stats.Health, _stats.Satiety, _stats.Thirst, 
-                _stats.Fatigue);
+            _updater.UpdateAllStats(_stats.Health, _stats.Satiety, _stats.Fatigue);
             _pause = pause;
             StartCoroutine(DecreaseStatsOverTime());
         }
@@ -35,14 +34,6 @@ namespace Core.Player
                 return;
             _stats.Satiety = IncreaseValue(_stats.Satiety, value);
             _updater.UpdateSatiety(_stats.Satiety);
-        }
-
-        public void IncreaseThirst(float value)
-        {
-            if (ValidateValue(value) == false)
-                return;
-            _stats.Thirst = IncreaseValue(_stats.Thirst, value);
-            _updater.UpdateThirst(_stats.Thirst);
         }
 
         public void IncreaseFatigue(float value)
@@ -78,7 +69,6 @@ namespace Core.Player
                 if (_pause.IsPause)
                     continue;
                 IncreaseSatiety(-0.2f);
-                IncreaseThirst(-0.2f);
                 IncreaseFatigue(-0.05f);
             }
         }
