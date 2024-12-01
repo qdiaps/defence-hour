@@ -29,10 +29,13 @@ namespace Infrastructure
             var input = new InputHandler(_joystickMovement, _joystickRotation);
 
             var player = Instantiate(_playerPrefab, _playerSpawnPoint.position, Quaternion.identity);
-            player.GetComponent<PlayerMovement>().Construct(input);
+            var playerMovement = player.GetComponent<PlayerMovement>();
+            playerMovement.Construct(input, _pauseHandler);
             player.GetComponent<PlayerStatsHandler>().Construct(_statsUpdater, _pauseHandler);
 
             _camera.Follow = player.transform;
+
+            _pauseHandler.AddComponent(playerMovement);
         }
     }
 }

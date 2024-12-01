@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 namespace Core.Services.PauseService
@@ -6,6 +7,9 @@ namespace Core.Services.PauseService
     public class PauseHandler : MonoBehaviour
     {
         public bool IsPause { get; private set; }
+
+        public event Action OnPause;
+        public event Action OnPlay;
 
         [SerializeField] private List<MonoBehaviour> _components = new();
 
@@ -18,6 +22,7 @@ namespace Core.Services.PauseService
         public void SetPause()
         {
             IsPause = true;
+            OnPause?.Invoke();
             SetActiveComponents(false);
         }
 
@@ -25,6 +30,7 @@ namespace Core.Services.PauseService
         {
             IsPause = false;
             SetActiveComponents(true);
+            OnPlay?.Invoke();
         }
 
         private void SetActiveComponents(bool value)
