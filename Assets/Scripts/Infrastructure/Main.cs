@@ -1,5 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using Config;
+using Core.Beings.Peaceful;
 using Core.Player;
 using Core.Services.InputService;
 using Core.Services.PauseService;
@@ -19,12 +21,16 @@ namespace Infrastructure
         [SerializeField] private SwipeHandler _swipeHandler;
         [SerializeField] private StatsUpdater _statsUpdater;
         [SerializeField] private PauseHandler _pauseHandler;
+        [SerializeField] private PeacefulSpawner _peacefulSpawner;
+        [Header("Configs")]
+        [SerializeField] private PeacefulSpawnerConfig _peacefulSpawnerConfig;
 
         private void Awake()
         {
             if (_playerPrefab == null || _playerSpawnPoint == null ||
                 _joystickMovement == null || _joystickRotation == null ||
-                _camera == null || _pauseHandler == null)
+                _camera == null || _pauseHandler == null || _peacefulSpawner == null ||
+                _peacefulSpawnerConfig == null)
                 Debug.LogError($"{name}: field(-s) is null!");
 
             var input = new InputHandler(_joystickMovement, _joystickRotation);
@@ -37,6 +43,8 @@ namespace Infrastructure
             _camera.Follow = player.transform;
 
             _pauseHandler.AddComponent(playerMovement);
+
+            _peacefulSpawner.Construct(player.transform, _pauseHandler, _peacefulSpawnerConfig);
         }
     }
 }

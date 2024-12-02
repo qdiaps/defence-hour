@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4665424fb0d4b310bac820a9563e3280, type: 3}
+  m_Name: PeacefulSpawnerConfig
+  m_EditorClassIdentifier: 
+  MinSpawnRadius: 20
+  MaxSpawnRadius: 40
+  MinTimeSpawn: 5
+  MaxTimeSpawn: 10
+  MaxActivePleaceful: 20
+  PeacefulPrefabs:
+  - {fileID: 2479941934912042417, guid: 026196b6edc5fbe49bfd80812b29301b, type: 3}
+  - {fileID: 2479941934912042417, guid: 289dba6c24136c2deadfe194fb8fd510, type: 3}
+  - {fileID: 2479941934912042417, guid: efc1b3921f866c1209050563b4aa6ba6, type: 3}
+  PeacefulPrefabsCount: 3
