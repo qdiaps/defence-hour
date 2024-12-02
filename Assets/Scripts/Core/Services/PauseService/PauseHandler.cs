@@ -22,6 +22,7 @@ namespace Core.Services.PauseService
         public void SetPause()
         {
             IsPause = true;
+            Time.timeScale = 0f;
             OnPause?.Invoke();
             SetActiveComponents(false);
         }
@@ -29,6 +30,7 @@ namespace Core.Services.PauseService
         public void SetPlay()
         {
             IsPause = false;
+            Time.timeScale = 1f;
             SetActiveComponents(true);
             OnPlay?.Invoke();
         }
