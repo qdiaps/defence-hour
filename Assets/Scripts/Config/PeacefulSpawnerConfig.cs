@@ -10,11 +10,11 @@ namespace Config
         public float MinTimeSpawn;
         public float MaxTimeSpawn;
         public int MaxActivePleaceful;
-        public GameObject[] PeacefulPrefabs;
+        public PeacefulConfigData[] Peacefuls;
 
         [HideInInspector] public int PeacefulPrefabsCount;
 
         private void Awake() =>
-            PeacefulPrefabsCount = PeacefulPrefabs.Length;
+            PeacefulPrefabsCount = Peacefuls.Length;
     }
 }

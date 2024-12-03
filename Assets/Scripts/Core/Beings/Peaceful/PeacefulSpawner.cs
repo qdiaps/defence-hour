@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Config;
 using Core.Services.PauseService;
+using Extensions;
 
 namespace Core.Beings.Peaceful
 {
@@ -30,21 +31,15 @@ namespace Core.Beings.Peaceful
                     _config.MaxTimeSpawn));
                 if (_pause.IsPause || _pleacefuls.Count >= _config.MaxActivePleaceful)
                     continue;
-                Vector2 position = GetRandomPosition();
-                GameObject prefab = _config.PeacefulPrefabs[Random.Range(0, 
-                    _config.PeacefulPrefabsCount)];
-                var pleaceful = Instantiate(prefab, position, Quaternion.identity);
-                _pleacefuls.Add(pleaceful);
+                Vector2 position = RandomUtility.GetRandomPositionInCirle(
+                    _player, _config.MinSpawnRadius, _config.MaxSpawnRadius);
+                int index = Random.Range(0, _config.PeacefulPrefabsCount);
+                GameObject prefab = _config.Peacefuls[index].Prefab;
+                var peaceful = Instantiate(prefab, position, Quaternion.identity);
+                peaceful.GetComponentInChildren<NormalPeacefulMovement>().Construct(_pause,
+                    _config.Peacefuls[index]);
+                _pleacefuls.Add(peaceful);
             }
-        }
-
-        private Vector2 GetRandomPosition()
-        {
-            float radius = Random.Range(_config.MinSpawnRadius, _config.MaxSpawnRadius);
-            float angle = Random.Range(0, 360f);
-            float x = _player.position.x + radius * Mathf.Cos(angle * Mathf.Deg2Rad);
-            float y = _player.position.y + radius * Mathf.Sin(angle * Mathf.Deg2Rad);
-            return new Vector2(x, y);
         }
     }
 }

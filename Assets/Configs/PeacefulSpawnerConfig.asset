@@ -17,8 +17,10 @@ MonoBehaviour:
   MinTimeSpawn: 5
   MaxTimeSpawn: 10
   MaxActivePleaceful: 20
-  PeacefulPrefabs:
-  - {fileID: 2479941934912042417, guid: 026196b6edc5fbe49bfd80812b29301b, type: 3}
-  - {fileID: 2479941934912042417, guid: 289dba6c24136c2deadfe194fb8fd510, type: 3}
-  - {fileID: 2479941934912042417, guid: efc1b3921f866c1209050563b4aa6ba6, type: 3}
-  PeacefulPrefabsCount: 3
+  Peacefuls:
+  - Prefab: {fileID: 2479941934912042417, guid: 289dba6c24136c2deadfe194fb8fd510, type: 3}
+    MinMovementRadius: 3
+    MaxMovementRadius: 5
+    MovementSpeed: 4
+    DownTime: 5
+  PeacefulPrefabsCount: 0
