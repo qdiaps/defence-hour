@@ -9,7 +9,8 @@ namespace Core.Beings.Peaceful
 
         private void OnTriggerExit2D(Collider2D collider)
         {
-            if (collider.TryGetComponent<PlayerMovement>(out var player))
+            if (_health.IsDead == false &&
+                collider.TryGetComponent<PlayerMovement>(out var player))
                 _health.Dead();
         }
     }

@@ -6,6 +6,8 @@ namespace Core.Beings.Peaceful
 {
     public class PeacefulHealth : MonoBehaviour, IDamageable
     {
+        public bool IsDead { get; private set; } = false;
+
         [SerializeField] private GameObject _peaceful;
 
         private PeacefulMovement _movement;
@@ -42,8 +44,8 @@ namespace Core.Beings.Peaceful
 
         public void Dead()
         {
+            IsDead = true;
             _spawner.DeletePeaceful(_peaceful);
-            Destroy(_peaceful);
         }
     }
 }

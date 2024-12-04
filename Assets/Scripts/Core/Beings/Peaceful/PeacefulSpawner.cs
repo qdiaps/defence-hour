@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Config;
 using Core.Services.PauseService;
+using DG.Tweening;
 using Extensions;
 
 namespace Core.Beings.Peaceful
@@ -29,7 +30,12 @@ namespace Core.Beings.Peaceful
         {
             if (_peacefuls.Contains(peaceful) == false)
                 Debug.LogError($"{name}: try delete non created peaceful");
-            _peacefuls.Remove(peaceful);
+            peaceful.transform.DOScale(0, 1).SetEase(Ease.InBack)
+                .OnComplete(() => 
+            {
+                _peacefuls.Remove(peaceful);
+                Destroy(peaceful);
+            });
         }
 
         private void FillPeacefulChances()
