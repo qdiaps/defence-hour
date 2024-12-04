@@ -81,9 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96dc1ec1cee88869da0aa47cc5ce89fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _layerCheck:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!1 &1482027545650717913
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26f5423be3cb5da31ae7f050d34b992d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _transform: {fileID: 5772323297755700888}
 --- !u!1 &2479941934912042417
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ namespace Config
 
         [HideInInspector] public int PeacefulPrefabsCount;
 
-        private void Awake() =>
+        private void OnValidate() =>
             PeacefulPrefabsCount = Peacefuls.Length;
     }
 }

@@ -8,6 +8,8 @@ namespace Core.Beings.Peaceful
 {
     public class NormalPeacefulMovement : MonoBehaviour
     {
+        [SerializeField] private Transform _transform;
+
         private PauseHandler _pause;
         private PeacefulConfigData _config;
         private Coroutine _coroutine = null;
@@ -40,14 +42,14 @@ namespace Core.Beings.Peaceful
             {
                 yield return new WaitForSeconds(3f);
                 Vector2 targetPosition = RandomUtility.GetRandomPositionInCirle(
-                    transform, 3, 5);
+                    _transform, 3, 5);
                 yield return StartCoroutine(Move(targetPosition, 4));
             }
         }
 
         private IEnumerator Move(Vector2 targetPosition, float time)
         {
-            Vector2 startPosition = transform.position;
+            Vector2 startPosition = _transform.position;
             float elapsedTime = 0f;
             while (elapsedTime < time)
             {
@@ -58,10 +60,10 @@ namespace Core.Beings.Peaceful
                 }
                 elapsedTime += Time.deltaTime;
                 float progress = elapsedTime / time;
-                transform.position = Vector2.Lerp(startPosition, targetPosition, progress);
+                _transform.position = Vector2.Lerp(startPosition, targetPosition, progress);
                 yield return null;
             }
-            transform.position = targetPosition;
+            _transform.position = targetPosition;
         }
     }
 }

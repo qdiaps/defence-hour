@@ -11,5 +11,6 @@ namespace Config
         public float MaxMovementRadius;
         public float MovementSpeed;
         public float DownTime;
+        public float SpawnChance;
     }
 }
