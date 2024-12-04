@@ -50,7 +50,7 @@ namespace Core.Beings.Peaceful
                 }
                 GameObject prefab = _config.Peacefuls[index].Prefab;
                 var peaceful = Instantiate(prefab, position, Quaternion.identity);
-                peaceful.GetComponentInChildren<NormalPeacefulMovement>().Construct(_pause,
+                peaceful.GetComponentInChildren<PeacefulMovement>().Construct(_pause,
                     _config.Peacefuls[index]);
                 _peacefuls.Add(peaceful);
             }

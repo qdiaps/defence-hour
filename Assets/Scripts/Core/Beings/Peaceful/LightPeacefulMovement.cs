@@ -3,7 +3,7 @@ using Core.Player;
 
 namespace Core.Beings.Peaceful
 {
-    public class LightPeacefulMovement : NormalPeacefulMovement
+    public class LightPeacefulMovement : PeacefulMovement
     {
         private void OnTriggerEnter2D(Collider2D collider)
         {

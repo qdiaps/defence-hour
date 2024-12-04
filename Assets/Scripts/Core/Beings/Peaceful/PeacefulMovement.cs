@@ -6,7 +6,7 @@ using Extensions;
 
 namespace Core.Beings.Peaceful
 {
-    public class NormalPeacefulMovement : MonoBehaviour
+    public class PeacefulMovement : MonoBehaviour
     {
         [SerializeField] private Transform _transform;
 

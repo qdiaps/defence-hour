@@ -6,7 +6,7 @@ namespace Core.Beings.Peaceful
     public class VisibilityToggleHandler : MonoBehaviour
     {
         [SerializeField] private GameObject _body;
-        [SerializeField] private NormalPeacefulMovement _movement;
+        [SerializeField] private PeacefulMovement _movement;
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
