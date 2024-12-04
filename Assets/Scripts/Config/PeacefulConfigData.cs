@@ -7,10 +7,14 @@ namespace Config
     public class PeacefulConfigData
     {
         public GameObject Prefab;
+        public float SpawnChance;
+        public float DownTime;
+        [Header("Movement")]
         public float MinMovementRadius;
         public float MaxMovementRadius;
-        public float MovementSpeed;
-        public float DownTime;
-        public float SpawnChance;
+        public float TimeMovement;
+        [Header("Run away")]
+        public float TimeRunAway;
+        public float RunAwayDistance;
     }
 }

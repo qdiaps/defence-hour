@@ -26,7 +26,6 @@ namespace Extensions
             }
 
             float value = Random.value;
-            Debug.Log(value);
             float cumulative = 0f;
             for (int i = 0; i < chances.Length; i++)
             {

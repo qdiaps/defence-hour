@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5465497758866517404}
   - component: {fileID: 2971749191215227630}
   - component: {fileID: 1481581721149621475}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: VisibilityDestructionHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 3208125871264509509}
   - component: {fileID: 2462021042758055302}
   - component: {fileID: 7344549504875334917}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5772323297755700888}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: NormalGreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 7440943176052078506}
   - component: {fileID: 1049625784072394186}
   - component: {fileID: 8280135211391982827}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: VisibilityToggleHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}

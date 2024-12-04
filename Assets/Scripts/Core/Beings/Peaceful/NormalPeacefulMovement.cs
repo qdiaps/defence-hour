@@ -11,8 +11,12 @@ namespace Core.Beings.Peaceful
         [SerializeField] private Transform _transform;
 
         private PauseHandler _pause;
-        private PeacefulConfigData _config;
-        private Coroutine _coroutine = null;
+        private Coroutine _coroutineMove = null;
+        private Coroutine _coroutineSubMove = null;
+        private Coroutine _coroutineRunAway = null;
+        private Transform _escapeTarget; 
+
+        protected PeacefulConfigData _config;
 
         public void Construct(PauseHandler pause, PeacefulConfigData config)
         {
@@ -23,16 +27,53 @@ namespace Core.Beings.Peaceful
 
         public void StartMovement()
         {
-            if (_coroutine == null)
-                _coroutine = StartCoroutine(Move());
+            if (_coroutineMove == null)
+                _coroutineMove = StartCoroutine(Move());
         }
 
         public void StopMovement()
         {
-            if (_coroutine != null)
+            if (_coroutineMove != null)
             {
-                StopCoroutine(_coroutine);
-                _coroutine = null;
+                if (_coroutineSubMove != null)
+                {
+                    StopCoroutine(_coroutineSubMove);
+                    _coroutineSubMove = null;
+                }
+                StopCoroutine(_coroutineMove);
+                _coroutineMove = null;
+            }
+        }
+
+        public void StartRunAway(Transform escapeTarget)
+        {
+            StopRunAway();
+            StopMovement();
+            _escapeTarget = escapeTarget;
+            _coroutineRunAway = StartCoroutine(RunAway());
+        }
+
+        public void StopRunAway()
+        {
+            if (_coroutineRunAway != null)
+            {
+                StopCoroutine(_coroutineRunAway);
+                _coroutineRunAway = null;
+                _escapeTarget = null;
+            }
+            StartMovement();
+        }
+
+        private IEnumerator RunAway()
+        {
+            while (true)
+            {
+                yield return null;
+                Vector2 directionFromEscape = (_transform.position - _escapeTarget.position)
+                    .normalized;
+                Vector2 targetPosition = (Vector2)_transform.position + directionFromEscape * 
+                    _config.RunAwayDistance;
+                yield return StartCoroutine(Move(targetPosition, _config.TimeRunAway));
             }
         }
 
@@ -40,14 +81,16 @@ namespace Core.Beings.Peaceful
         {
             while (true)
             {
-                yield return new WaitForSeconds(3f);
+                yield return new WaitForSeconds(_config.DownTime);
                 Vector2 targetPosition = RandomUtility.GetRandomPositionInCirle(
-                    _transform, 3, 5);
-                yield return StartCoroutine(Move(targetPosition, 4));
+                    _transform, _config.MinMovementRadius, _config.MaxMovementRadius);
+                _coroutineSubMove = StartCoroutine(Move(targetPosition, _config.TimeMovement));
+                yield return _coroutineSubMove;
+                _coroutineSubMove = null;
             }
         }
 
-        private IEnumerator Move(Vector2 targetPosition, float time)
+        protected IEnumerator Move(Vector2 targetPosition, float time)
         {
             Vector2 startPosition = _transform.position;
             float elapsedTime = 0f;
