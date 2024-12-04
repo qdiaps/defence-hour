@@ -45,12 +45,12 @@ namespace Core.Beings.Peaceful
             }
         }
 
-        public void StartRunAway(Transform escapeTarget)
+        public void StartRunAway(Transform escapeTarget, bool selfStop = false)
         {
             StopRunAway();
             StopMovement();
             _escapeTarget = escapeTarget;
-            _coroutineRunAway = StartCoroutine(RunAway());
+            _coroutineRunAway = StartCoroutine(RunAway(selfStop));
         }
 
         public void StopRunAway()
@@ -64,9 +64,9 @@ namespace Core.Beings.Peaceful
             StartMovement();
         }
 
-        private IEnumerator RunAway()
+        private IEnumerator RunAway(bool selfStop)
         {
-            while (true)
+            do
             {
                 yield return null;
                 Vector2 directionFromEscape = (_transform.position - _escapeTarget.position)
@@ -74,6 +74,11 @@ namespace Core.Beings.Peaceful
                 Vector2 targetPosition = (Vector2)_transform.position + directionFromEscape * 
                     _config.RunAwayDistance;
                 yield return StartCoroutine(Move(targetPosition, _config.TimeRunAway));
+            } while (selfStop == false);
+            if (selfStop)
+            {
+                Debug.Log("Stop");
+                StopRunAway();
             }
         }
 

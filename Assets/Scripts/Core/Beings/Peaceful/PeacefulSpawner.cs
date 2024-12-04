@@ -25,6 +25,13 @@ namespace Core.Beings.Peaceful
             StartCoroutine(Generate());
         }
 
+        public void DeletePeaceful(GameObject peaceful)
+        {
+            if (_peacefuls.Contains(peaceful) == false)
+                Debug.LogError($"{name}: try delete non created peaceful");
+            _peacefuls.Remove(peaceful);
+        }
+
         private void FillPeacefulChances()
         {
             _peacefulChances = new float[_config.PeacefulPrefabsCount];
@@ -52,6 +59,8 @@ namespace Core.Beings.Peaceful
                 var peaceful = Instantiate(prefab, position, Quaternion.identity);
                 peaceful.GetComponentInChildren<PeacefulMovement>().Construct(_pause,
                     _config.Peacefuls[index]);
+                peaceful.GetComponentInChildren<PeacefulHealth>().Construct(
+                    _config.Peacefuls[index], this);
                 _peacefuls.Add(peaceful);
             }
         }

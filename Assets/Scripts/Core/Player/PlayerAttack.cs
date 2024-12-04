@@ -1,6 +1,5 @@
 using UnityEngine;
 using Core.Services.InputService;
-using Core;
 using DG.Tweening;
 
 namespace Core.Player
@@ -85,8 +84,8 @@ namespace Core.Player
                 _attackRange, _targetLayer);
             if (hit.collider == null)
                 return;
-            //hit.collider.GetComponent<IDamageable>().OnDamage();
-            Debug.Log($"{hit.collider.name}.OnDamage");
+            if (hit.collider.TryGetComponent<IDamageable>(out var target))
+                target.OnDamage(gameObject, 1);
         }
     }
 }

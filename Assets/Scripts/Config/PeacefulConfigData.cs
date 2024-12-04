@@ -9,6 +9,7 @@ namespace Config
         public GameObject Prefab;
         public float SpawnChance;
         public float DownTime;
+        public float StartHealth;
         [Header("Movement")]
         public float MinMovementRadius;
         public float MaxMovementRadius;
