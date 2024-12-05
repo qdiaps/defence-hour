@@ -1,91 +1,89 @@
 using UnityEngine;
 using Core.Services.InputService;
+using Config;
+using System.Collections;
 using DG.Tweening;
 
 namespace Core.Player
 {
     public class PlayerAttack : MonoBehaviour
     {
-        [SerializeField] private GameObject _body1;
-        [SerializeField] private GameObject _body2;
-        [SerializeField] private GameObject _body3;
-        [SerializeField] private float _attackRange;
-        [SerializeField] private LayerMask _targetLayer;
+        private ButtonHandler _dashAttackHandler;
+        private ButtonHandler _tornadoAttackHandler;
+        private PlayerConfig _config;
+        private bool _canDashAttack;
+        private bool _canTornadoAttack;
 
-        private AttackHandler _attackHandler;
-        private bool _canAttack;
-
-        private void OnDestroy() =>
-            _attackHandler.OnAttack -= OnAttack;
-
-        private void OnDrawGizmos()
+        private void OnDestroy()
         {
-            Vector2 direction = transform.TransformDirection(Vector2.up);
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, transform.position + (Vector3)direction * _attackRange);
+            _dashAttackHandler.OnClick -= OnDashAttack;
+            _tornadoAttackHandler.OnClick -= OnTornadoAttack;
         }
 
-        public void Construct(AttackHandler attackHandler)
+        public void Construct(ButtonHandler dashAttackHandler, ButtonHandler tornadoAttackHandler,
+            PlayerConfig config)
         {
-            _attackHandler = attackHandler;
-            _attackHandler.OnAttack += OnAttack;
-            _canAttack = true;
+            _dashAttackHandler = dashAttackHandler;
+            _dashAttackHandler.OnClick += OnDashAttack;
+            _canDashAttack = true;
+            _tornadoAttackHandler = tornadoAttackHandler;
+            _tornadoAttackHandler.OnClick += OnTornadoAttack;
+            _canTornadoAttack = true;
+            _config = config;
         }
 
-        private void OnAttack()
+        private void OnDashAttack()
         {
-            if (_canAttack == false)
-                return;
-            Attack();
+            if (_tornadoAttackHandler)
+                StartCoroutine(DashAttack());
         }
 
-        private void Attack()
+        private IEnumerator DashAttack()
         {
-            _canAttack = false;
-
-            Sequence anim = DOTween.Sequence();
-            _body1.SetActive(true);
-            anim
-                .Append(_body1.transform.DOLocalMoveY(0.35f, 0.15f).From(0f).SetEase(Ease.Linear))
-                .Join(_body1.transform.DOScale(0.8f, 0.15f).From(1f).SetEase(Ease.Linear))
-                .OnComplete(() =>
+            if (_canDashAttack == false)
+                yield break;
+            _canDashAttack = false;
+            do
             {
+                Vector2 startPosition = transform.position;
+                float angle = (transform.eulerAngles.z + 90f) * Mathf.Deg2Rad;
+                Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
+                RaycastHit2D hit = Physics2D.Raycast(startPosition, direction, 
+                    _config.DashDistance, _config.CollisionLayer);
+                float targetDistance = hit.collider ? hit.distance : _config.DashDistance;
+                Vector2 targetPosition = startPosition + direction * targetDistance;
+
                 Sequence anim = DOTween.Sequence();
-                _body2.SetActive(true);
-                anim
-                    .Append(_body2.transform.DOLocalMoveY(0.7f, 0.15f).From(0.35f).SetEase(Ease.Linear))
-                    .Join(_body2.transform.DOScale(0.6f, 0.15f).From(0.8f).SetEase(Ease.Linear))
-                    .OnComplete(() =>
-                {
-                    Sequence anim = DOTween.Sequence();
-                    _body3.SetActive(true);
-                    anim
-                        .Append(_body3.transform.DOLocalMoveY(1.1f, 0.15f).From(0.7f).SetEase(Ease.Linear))
-                        .Join(_body3.transform.DOScale(0.4f, 0.15f).From(0.6f).SetEase(Ease.Linear))
-                        .OnComplete(() =>
-                    {
-                        _body1.SetActive(false);
-                        _body2.SetActive(false);
-                        _body3.SetActive(false);
-                        CheckHitArea();
-                        if (_attackHandler.IsAttack)
-                            Attack();
-                        else
-                            _canAttack = true;
-                    });
-                });
-            });
+                anim.Append(transform.DOScaleY(_config.StretchFactor, _config.StretchDuration))
+                    .Append(transform.DOScaleY(1f, _config.StretchDuration))
+                    .Join(transform.DOLocalMove(targetPosition, 
+                        targetDistance / _config.DashAttackSpeed))
+                        .SetEase(Ease.OutQuad);
+                yield return anim.WaitForCompletion();
+            } while (_dashAttackHandler.IsClick);
+            _canDashAttack = true;
         }
 
-        private void CheckHitArea()
+        private void OnTornadoAttack()
         {
-            Vector2 direction = transform.TransformDirection(Vector2.up);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 
-                _attackRange, _targetLayer);
-            if (hit.collider == null)
-                return;
-            if (hit.collider.TryGetComponent<IDamageable>(out var target))
-                target.OnDamage(gameObject, 1);
+            if (_canDashAttack)
+                StartCoroutine(TornadoAttack());
+        }
+
+        private IEnumerator TornadoAttack()
+        {
+            if (_canTornadoAttack == false)
+                yield break;
+            _canTornadoAttack = false;
+            do 
+            {
+                yield return transform
+                    .DORotate(new Vector3(0, 0, _config.MaxSpinSpeed * _config.TornadoDuration), 
+                        _config.TornadoDuration, RotateMode.LocalAxisAdd)
+                    .SetEase(Ease.OutQuad)
+                    .WaitForCompletion();
+            } while (_tornadoAttackHandler.IsClick);
+            _canTornadoAttack = true;
         }
     }
 }

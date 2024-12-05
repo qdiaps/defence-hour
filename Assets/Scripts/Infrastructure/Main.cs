@@ -17,30 +17,32 @@ namespace Infrastructure
         [SerializeField] private CinemachineCamera _camera;
         [Header("Scripts")]
         [SerializeField] private FixedJoystick _joystickMovement;
-        [SerializeField] private FixedJoystick _joystickRotation;
         [SerializeField] private SwipeHandler _swipeHandler;
         [SerializeField] private StatsUpdater _statsUpdater;
         [SerializeField] private PauseHandler _pauseHandler;
         [SerializeField] private PeacefulSpawner _peacefulSpawner;
-        [SerializeField] private AttackHandler _attackHandler;
+        [SerializeField] private ButtonHandler _dashAttackHandler;
+        [SerializeField] private ButtonHandler _tornadoAttackHandler;
         [Header("Configs")]
         [SerializeField] private PeacefulSpawnerConfig _peacefulSpawnerConfig;
+        [SerializeField] private PlayerConfig _playerConfig;
 
         private void Awake()
         {
             if (_playerPrefab == null || _playerSpawnPoint == null ||
-                _joystickMovement == null || _joystickRotation == null ||
+                _joystickMovement == null || _tornadoAttackHandler == null ||
                 _camera == null || _pauseHandler == null || _peacefulSpawner == null ||
-                _peacefulSpawnerConfig == null || _attackHandler == null)
+                _peacefulSpawnerConfig == null || _dashAttackHandler == null ||
+                _playerConfig == null)
                 Debug.LogError($"{name}: field(-s) is null!");
 
-            var input = new InputHandler(_joystickMovement, _joystickRotation);
+            var input = new InputHandler(_joystickMovement);
 
             var player = Instantiate(_playerPrefab, _playerSpawnPoint.position, Quaternion.identity);
             var playerMovement = player.GetComponent<PlayerMovement>();
-            playerMovement.Construct(input, _pauseHandler, _swipeHandler);
+            playerMovement.Construct(input, _pauseHandler, _playerConfig);
             player.GetComponent<PlayerStatsHandler>().Construct(_statsUpdater, _pauseHandler);
-            player.GetComponent<PlayerAttack>().Construct(_attackHandler);
+            player.GetComponent<PlayerAttack>().Construct(_dashAttackHandler, _tornadoAttackHandler, _playerConfig);
 
             _camera.Follow = player.transform;
 

@@ -306,7 +306,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 6
-  _rotationSpeed: 6
 --- !u!114 &306279672867997476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,13 +330,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 731fbc35c304500a3b2068b2a3964c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _body1: {fileID: 8319121065520706856}
-  _body2: {fileID: 8872117627081738268}
-  _body3: {fileID: 658548435248247}
-  _attackRange: 1.4
-  _targetLayer:
+  _collisionLayer:
     serializedVersion: 2
     m_Bits: 64
+  _dashDistance: 2
+  _stretchFactor: 1.8
+  _stretchDuration: 0.1
+  _dashAttackSpeed: 25
+  _tornadoDuration: 1
+  _maxSpinSpeed: 1080
 --- !u!1 &5662053753906986288
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,7 +416,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d82c2af421d894120a1b1e7b2cc3016c, type: 3}
-  m_Color: {r: 0.119742855, g: 0.1078617, b: 0.42271167, a: 1}
+  m_Color: {r: 0.07572114, g: 0.06792772, b: 0.27575278, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -441,7 +442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3899219060579934180
 Transform:
   m_ObjectHideFlags: 0
