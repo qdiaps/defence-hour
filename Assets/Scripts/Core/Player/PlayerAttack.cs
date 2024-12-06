@@ -1,5 +1,6 @@
 using UnityEngine;
 using Core.Services.InputService;
+using Core.UI.HUD.Movement;
 using Config;
 using System.Collections;
 using DG.Tweening;
@@ -10,9 +11,13 @@ namespace Core.Player
     {
         private ButtonHandler _dashAttackHandler;
         private ButtonHandler _tornadoAttackHandler;
+        private AttackCooldown _cooldownDashHandler;
+        private AttackCooldown _cooldownTornadoHandler;
         private PlayerConfig _config;
         private bool _canDashAttack;
         private bool _canTornadoAttack;
+        private bool _cooldownDash;
+        private bool _cooldownTornado;
 
         private void OnDestroy()
         {
@@ -21,7 +26,7 @@ namespace Core.Player
         }
 
         public void Construct(ButtonHandler dashAttackHandler, ButtonHandler tornadoAttackHandler,
-            PlayerConfig config)
+            PlayerConfig config, AttackCooldown cooldownDash, AttackCooldown cooldownTornado)
         {
             _dashAttackHandler = dashAttackHandler;
             _dashAttackHandler.OnClick += OnDashAttack;
@@ -30,6 +35,8 @@ namespace Core.Player
             _tornadoAttackHandler.OnClick += OnTornadoAttack;
             _canTornadoAttack = true;
             _config = config;
+            _cooldownDashHandler = cooldownDash;
+            _cooldownTornadoHandler = cooldownTornado;
         }
 
         private void OnDashAttack()
@@ -45,6 +52,13 @@ namespace Core.Player
             _canDashAttack = false;
             do
             {
+                if (_cooldownDash)
+                {
+                    yield return null;
+                    continue;
+                }
+                _cooldownDash = true;
+                _cooldownDashHandler.StartAnim(_config.CooldownDash, () => _cooldownDash = false);
                 Vector2 startPosition = transform.position;
                 float angle = (transform.eulerAngles.z + 90f) * Mathf.Deg2Rad;
                 Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
@@ -79,6 +93,13 @@ namespace Core.Player
             _canTornadoAttack = false;
             do 
             {
+                if (_cooldownTornado)
+                {
+                    yield return null;
+                    continue;
+                }
+                _cooldownTornado = true;
+                _cooldownTornadoHandler.StartAnim(_config.CooldownTornado, () => _cooldownTornado = false);
                 Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 
                     _config.TornadoAttackRadius, _config.CollisionLayer);
                 foreach (var hit in hits)
@@ -91,6 +112,7 @@ namespace Core.Player
                         _config.TornadoDuration, RotateMode.LocalAxisAdd)
                     .SetEase(Ease.OutQuad)
                     .WaitForCompletion();
+                yield return null;
             } while (_tornadoAttackHandler.IsClick);
             _canTornadoAttack = true;
         }

@@ -24,6 +24,8 @@ namespace Infrastructure
         [SerializeField] private PeacefulRemover _peacefulRemover;
         [SerializeField] private ButtonHandler _dashAttackHandler;
         [SerializeField] private ButtonHandler _tornadoAttackHandler;
+        [SerializeField] private AttackCooldown _attackCooldownDash;
+        [SerializeField] private AttackCooldown _attackCooldownTornado;
         [Header("Configs")]
         [SerializeField] private PeacefulSpawnerConfig _peacefulSpawnerConfig;
         [SerializeField] private PlayerConfig _playerConfig;
@@ -43,7 +45,8 @@ namespace Infrastructure
             var playerMovement = player.GetComponent<PlayerMovement>();
             playerMovement.Construct(input, _pauseHandler, _playerConfig);
             player.GetComponent<PlayerStatsHandler>().Construct(_statsUpdater, _pauseHandler);
-            player.GetComponent<PlayerAttack>().Construct(_dashAttackHandler, _tornadoAttackHandler, _playerConfig);
+            player.GetComponent<PlayerAttack>().Construct(_dashAttackHandler, _tornadoAttackHandler, _playerConfig,
+                _attackCooldownDash, _attackCooldownTornado);
 
             _camera.Follow = player.transform;
 

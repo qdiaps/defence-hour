@@ -24,6 +24,8 @@ MonoBehaviour:
   StretchFactor: 1.8
   StretchDuration: 0.1
   DashAttackSpeed: 25
+  CooldownDash: 0.6
   TornadoDuration: 1
   MaxSpinSpeed: 720
   TornadoAttackRadius: 1.3
+  CooldownTornado: 1.3

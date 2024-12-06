@@ -18,9 +18,11 @@ namespace Config
         public float StretchFactor;
         public float StretchDuration;
         public float DashAttackSpeed;
+        public float CooldownDash;
         [Header("Tornado")]
         public float TornadoDuration;
         public float MaxSpinSpeed;
         public float TornadoAttackRadius;
+        public float CooldownTornado;
     }
 }
