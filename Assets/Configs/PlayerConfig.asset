@@ -25,4 +25,5 @@ MonoBehaviour:
   StretchDuration: 0.1
   DashAttackSpeed: 25
   TornadoDuration: 1
-  MaxSpinSpeed: 1080
+  MaxSpinSpeed: 720
+  TornadoAttackRadius: 1.3

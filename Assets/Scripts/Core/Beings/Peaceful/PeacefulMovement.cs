@@ -1,117 +1,83 @@
 using UnityEngine;
 using System.Collections;
-using Core.Services.PauseService;
 using Config;
-using Extensions;
+using DG.Tweening;
 
 namespace Core.Beings.Peaceful
 {
     public class PeacefulMovement : MonoBehaviour
     {
-        [SerializeField] private Transform _transform;
+        private Tween _anim;
+        private Vector3 _defaultScale;
+        private Vector2 _direction;
+        private Coroutine _activeCoroutine;
+        private Rigidbody2D _rigidbody;
+        private PeacefulConfigData _config;
 
-        private PauseHandler _pause;
-        private Coroutine _coroutineMove = null;
-        private Coroutine _coroutineSubMove = null;
-        private Coroutine _coroutineRunAway = null;
-        private Transform _escapeTarget; 
-
-        protected PeacefulConfigData _config;
-
-        public void Construct(PauseHandler pause, PeacefulConfigData config)
+        private void Awake()
         {
-            _pause = pause;
+            _rigidbody = GetComponent<Rigidbody2D>();
+            _defaultScale = transform.localScale;
+        }
+
+        private void FixedUpdate() =>
+            _rigidbody.linearVelocity = _direction;
+
+        public void Construct(PeacefulConfigData config)
+        {
             _config = config;
             StartMovement();
         }
 
         public void StartMovement()
         {
-            if (_coroutineMove == null)
-                _coroutineMove = StartCoroutine(Move());
+            StopAllMovement();
+            _activeCoroutine = StartCoroutine(Move(_config.DownTime, 
+                _config.Speed, _config.TimeMovement));
         }
 
-        public void StopMovement()
+        public void StopAllMovement()
         {
-            if (_coroutineMove != null)
+            if (_activeCoroutine != null)
             {
-                if (_coroutineSubMove != null)
-                {
-                    StopCoroutine(_coroutineSubMove);
-                    _coroutineSubMove = null;
-                }
-                StopCoroutine(_coroutineMove);
-                _coroutineMove = null;
+                StopCoroutine(_activeCoroutine);
+                _activeCoroutine = null;
+                StopMove();
             }
         }
 
-        public void StartRunAway(Transform escapeTarget, bool selfStop = false)
-        {
-            StopRunAway();
-            StopMovement();
-            _escapeTarget = escapeTarget;
-            _coroutineRunAway = StartCoroutine(RunAway(selfStop));
-        }
-
-        public void StopRunAway()
-        {
-            if (_coroutineRunAway != null)
-            {
-                StopCoroutine(_coroutineRunAway);
-                _coroutineRunAway = null;
-                _escapeTarget = null;
-            }
-            StartMovement();
-        }
-
-        private IEnumerator RunAway(bool selfStop)
-        {
-            do
-            {
-                yield return null;
-                Vector2 directionFromEscape = (_transform.position - _escapeTarget.position)
-                    .normalized;
-                Vector2 targetPosition = (Vector2)_transform.position + directionFromEscape * 
-                    _config.RunAwayDistance;
-                yield return StartCoroutine(Move(targetPosition, _config.TimeRunAway));
-            } while (selfStop == false);
-            if (selfStop)
-            {
-                Debug.Log("Stop");
-                StopRunAway();
-            }
-        }
-
-        private IEnumerator Move()
+        private IEnumerator Move(float downTime, float speed, float time)
         {
             while (true)
             {
-                yield return new WaitForSeconds(_config.DownTime);
-                Vector2 targetPosition = RandomUtility.GetRandomPositionInCirle(
-                    _transform, _config.MinMovementRadius, _config.MaxMovementRadius);
-                _coroutineSubMove = StartCoroutine(Move(targetPosition, _config.TimeMovement));
-                yield return _coroutineSubMove;
-                _coroutineSubMove = null;
+                _anim = CreatePulseAnim(_config.PulseScale, _config.PulseDuration);
+                _direction = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * speed;
+                yield return new WaitForSeconds(time);
+                StopMove();
+                yield return new WaitForSeconds(downTime);
             }
         }
 
-        protected IEnumerator Move(Vector2 targetPosition, float time)
+        private void StopMove()
         {
-            Vector2 startPosition = _transform.position;
-            float elapsedTime = 0f;
-            while (elapsedTime < time)
+            StopAnim();
+            _direction = Vector2.zero;
+        }
+
+        private Tween CreatePulseAnim(float pulseScale, float duration)
+        {
+            return transform.DOScale(_defaultScale * pulseScale, duration)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetEase(Ease.InOutSine);
+        }
+
+        private void StopAnim()
+        {
+            if (_anim != null && _anim.IsActive())
             {
-                if (_pause.IsPause)
-                {
-                    yield return null;
-                    continue;
-                }
-                elapsedTime += Time.deltaTime;
-                float progress = elapsedTime / time;
-                _transform.position = Vector2.Lerp(startPosition, targetPosition, progress);
-                yield return null;
+                _anim.Kill();
+                transform.localScale = _defaultScale;
             }
-            _transform.position = targetPosition;
         }
     }
 }

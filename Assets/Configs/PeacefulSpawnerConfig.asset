@@ -22,27 +22,24 @@ MonoBehaviour:
     SpawnChance: 50
     DownTime: 2
     StartHealth: 2
-    MinMovementRadius: 5
-    MaxMovementRadius: 8
-    TimeMovement: 3
-    TimeRunAway: 2.5
-    RunAwayDistance: 10
+    TimeMovement: 5
+    Speed: 3.5
+    PulseScale: 1.1
+    PulseDuration: 0.2
   - Prefab: {fileID: 2479941934912042417, guid: 289dba6c24136c2deadfe194fb8fd510, type: 3}
     SpawnChance: 30
     DownTime: 4
     StartHealth: 5
-    MinMovementRadius: 5
-    MaxMovementRadius: 8
     TimeMovement: 4
-    TimeRunAway: 2.5
-    RunAwayDistance: 8
+    Speed: 3
+    PulseScale: 1.08
+    PulseDuration: 0.3
   - Prefab: {fileID: 2479941934912042417, guid: efc1b3921f866c1209050563b4aa6ba6, type: 3}
     SpawnChance: 20
     DownTime: 6
     StartHealth: 10
-    MinMovementRadius: 5
-    MaxMovementRadius: 8
-    TimeMovement: 6
-    TimeRunAway: 0
-    RunAwayDistance: 0
+    TimeMovement: 3
+    Speed: 2.5
+    PulseScale: 1.06
+    PulseDuration: 0.4
   PeacefulPrefabsCount: 3

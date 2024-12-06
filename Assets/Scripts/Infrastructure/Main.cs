@@ -21,6 +21,7 @@ namespace Infrastructure
         [SerializeField] private StatsUpdater _statsUpdater;
         [SerializeField] private PauseHandler _pauseHandler;
         [SerializeField] private PeacefulSpawner _peacefulSpawner;
+        [SerializeField] private PeacefulRemover _peacefulRemover;
         [SerializeField] private ButtonHandler _dashAttackHandler;
         [SerializeField] private ButtonHandler _tornadoAttackHandler;
         [Header("Configs")]
@@ -33,7 +34,7 @@ namespace Infrastructure
                 _joystickMovement == null || _tornadoAttackHandler == null ||
                 _camera == null || _pauseHandler == null || _peacefulSpawner == null ||
                 _peacefulSpawnerConfig == null || _dashAttackHandler == null ||
-                _playerConfig == null)
+                _playerConfig == null || _peacefulRemover == null)
                 Debug.LogError($"{name}: field(-s) is null!");
 
             var input = new InputHandler(_joystickMovement);
@@ -48,7 +49,8 @@ namespace Infrastructure
 
             _pauseHandler.AddComponent(playerMovement);
 
-            _peacefulSpawner.Construct(player.transform, _pauseHandler, _peacefulSpawnerConfig);
+            _peacefulRemover.Construct(_peacefulSpawner);
+            _peacefulSpawner.Construct(player.transform, _pauseHandler, _peacefulSpawnerConfig, _peacefulRemover);
         }
     }
 }

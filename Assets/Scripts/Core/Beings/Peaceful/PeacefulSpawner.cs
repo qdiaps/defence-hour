@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Config;
 using Core.Services.PauseService;
-using DG.Tweening;
 using Extensions;
 
 namespace Core.Beings.Peaceful
@@ -13,15 +12,17 @@ namespace Core.Beings.Peaceful
         private Transform _player;
         private PauseHandler _pause;
         private PeacefulSpawnerConfig _config;
+        private PeacefulRemover _remover;
         private List<GameObject> _peacefuls = new List<GameObject>();
         private float[] _peacefulChances;
 
         public void Construct(Transform player, PauseHandler pause,
-            PeacefulSpawnerConfig config)
+            PeacefulSpawnerConfig config, PeacefulRemover remover)
         {
             _player = player;
             _pause = pause;
             _config = config;
+            _remover = remover;
             FillPeacefulChances();
             StartCoroutine(Generate());
         }
@@ -30,12 +31,7 @@ namespace Core.Beings.Peaceful
         {
             if (_peacefuls.Contains(peaceful) == false)
                 Debug.LogError($"{name}: try delete non created peaceful");
-            peaceful.transform.DOScale(0, 1).SetEase(Ease.InBack)
-                .OnComplete(() => 
-            {
-                _peacefuls.Remove(peaceful);
-                Destroy(peaceful);
-            });
+            _peacefuls.Remove(peaceful);
         }
 
         private void FillPeacefulChances()
@@ -63,12 +59,15 @@ namespace Core.Beings.Peaceful
                 }
                 GameObject prefab = _config.Peacefuls[index].Prefab;
                 var peaceful = Instantiate(prefab, position, Quaternion.identity);
-                peaceful.GetComponentInChildren<PeacefulMovement>().Construct(_pause,
-                    _config.Peacefuls[index]);
-                peaceful.GetComponentInChildren<PeacefulHealth>().Construct(
-                    _config.Peacefuls[index], this);
                 _peacefuls.Add(peaceful);
+                Resolve(peaceful, _config.Peacefuls[index]);
             }
+        }
+
+        private void Resolve(GameObject prefab, PeacefulConfigData config)
+        {
+            prefab.GetComponentInChildren<PeacefulMovement>().Construct(config);
+            prefab.GetComponentInChildren<PeacefulHealth>().Construct(config, _remover);
         }
     }
 }

@@ -11,11 +11,9 @@ namespace Config
         public float DownTime;
         public float StartHealth;
         [Header("Movement")]
-        public float MinMovementRadius;
-        public float MaxMovementRadius;
         public float TimeMovement;
-        [Header("Run away")]
-        public float TimeRunAway;
-        public float RunAwayDistance;
+        public float Speed;
+        public float PulseScale;
+        public float PulseDuration;
     }
 }

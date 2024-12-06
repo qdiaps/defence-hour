@@ -21,5 +21,6 @@ namespace Config
         [Header("Tornado")]
         public float TornadoDuration;
         public float MaxSpinSpeed;
+        public float TornadoAttackRadius;
     }
 }

@@ -1,32 +1,31 @@
 using UnityEngine;
 using Core.Player;
 using Config;
+using DG.Tweening;
 
 namespace Core.Beings.Peaceful
 {
     public class PeacefulHealth : MonoBehaviour, IDamageable
     {
-        public bool IsDead { get; private set; } = false;
+        [SerializeField] private SpriteRenderer _sprite;
 
-        [SerializeField] private GameObject _peaceful;
-
+        private PeacefulRemover _remover;
         private PeacefulMovement _movement;
-        private PeacefulSpawner _spawner;
         private float _currentHealth;
 
-        protected PeacefulConfigData _config;
+        private PeacefulConfigData _config;
 
         private void Awake() =>
             _movement = GetComponent<PeacefulMovement>();
 
-        public void Construct(PeacefulConfigData config, PeacefulSpawner spawner)
+        public void Construct(PeacefulConfigData config, PeacefulRemover remover)
         {
             _config = config;
+            _remover = remover;
             _currentHealth = _config.StartHealth;
-            _spawner = spawner;
         }
 
-        public virtual void OnDamage(GameObject source, float damage)
+        public void OnDamage(GameObject source, float damage)
         {
             if (damage < 0)
                 Debug.LogError($"{name}: damage value < 0");
@@ -35,17 +34,15 @@ namespace Core.Beings.Peaceful
                 _currentHealth -= damage;
                 if (_currentHealth <= 0)
                 {
+                    _movement.StopAllMovement();
                     Dead();
                     return;
                 }
-                _movement.StartRunAway(source.transform, true);
+                _sprite.DOFade(0.5f, 0.2f).OnComplete(() => _sprite.DOFade(1f, 0.2f));
             }
         }
 
-        public void Dead()
-        {
-            IsDead = true;
-            _spawner.DeletePeaceful(_peaceful);
-        }
+        public void Dead() =>
+            _remover.RemoveWithAnim(gameObject);
     }
 }

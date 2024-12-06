@@ -52,7 +52,6 @@ namespace Core.Player
                     _config.DashDistance, _config.CollisionLayer);
                 float targetDistance = hit.collider ? hit.distance : _config.DashDistance;
                 Vector2 targetPosition = startPosition + direction * targetDistance;
-
                 Sequence anim = DOTween.Sequence();
                 anim.Append(transform.DOScaleY(_config.StretchFactor, _config.StretchDuration))
                     .Append(transform.DOScaleY(1f, _config.StretchDuration))
@@ -60,6 +59,9 @@ namespace Core.Player
                         targetDistance / _config.DashAttackSpeed))
                         .SetEase(Ease.OutQuad);
                 yield return anim.WaitForCompletion();
+                if (hit.collider != null && hit.collider.TryGetComponent<IDamageable>(out var damage))
+                    damage.OnDamage(gameObject, _config.Damage);
+                yield return null;
             } while (_dashAttackHandler.IsClick);
             _canDashAttack = true;
         }
@@ -77,6 +79,13 @@ namespace Core.Player
             _canTornadoAttack = false;
             do 
             {
+                Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 
+                    _config.TornadoAttackRadius, _config.CollisionLayer);
+                foreach (var hit in hits)
+                {
+                    if (hit.TryGetComponent<IDamageable>(out var damage))
+                        damage.OnDamage(gameObject, _config.Damage);
+                }
                 yield return transform
                     .DORotate(new Vector3(0, 0, _config.MaxSpinSpeed * _config.TornadoDuration), 
                         _config.TornadoDuration, RotateMode.LocalAxisAdd)
