@@ -36,7 +36,8 @@ namespace Infrastructure
                 _joystickMovement == null || _tornadoAttackHandler == null ||
                 _camera == null || _pauseHandler == null || _peacefulSpawner == null ||
                 _peacefulSpawnerConfig == null || _dashAttackHandler == null ||
-                _playerConfig == null || _peacefulRemover == null)
+                _playerConfig == null || _peacefulRemover == null ||
+                _attackCooldownDash == null || _attackCooldownTornado == null)
                 Debug.LogError($"{name}: field(-s) is null!");
 
             var input = new InputHandler(_joystickMovement);

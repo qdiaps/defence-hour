@@ -41,7 +41,7 @@ namespace Core.Player
 
         private void OnDashAttack()
         {
-            if (_tornadoAttackHandler)
+            if (_canDashAttack && _canTornadoAttack)
                 StartCoroutine(DashAttack());
         }
 
@@ -82,7 +82,7 @@ namespace Core.Player
 
         private void OnTornadoAttack()
         {
-            if (_canDashAttack)
+            if (_canDashAttack && _canTornadoAttack)
                 StartCoroutine(TornadoAttack());
         }
 
