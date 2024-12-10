@@ -22,33 +22,20 @@ namespace Core.Player
 
         public void IncreaseHealth(float value)
         {
-            if (ValidateValue(value) == false)
-                return;
             _stats.Health = IncreaseValue(_stats.Health, value);
             _updater.UpdateHealth(_stats.Health);
         }
 
         public void IncreaseSatiety(float value)
         {
-            if (ValidateValue(value) == false)
-                return;
             _stats.Satiety = IncreaseValue(_stats.Satiety, value);
             _updater.UpdateSatiety(_stats.Satiety);
         }
 
         public void IncreaseFatigue(float value)
         {
-            if (ValidateValue(value) == false)
-                return;
             _stats.Fatigue = IncreaseValue(_stats.Fatigue, value);
             _updater.UpdateFatigue(_stats.Fatigue);
-        }
-
-        private bool ValidateValue(float value)
-        {
-            if (value > 10 || value < -10)
-                return false;
-            return true;
         }
 
         private float IncreaseValue(float stat, float value)
