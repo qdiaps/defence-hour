@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 using Config;
 using Core.Beings.Peaceful;
+using Core.Item;
 using Core.Player;
 using Core.Services.InputService;
 using Core.Services.PauseService;
@@ -41,6 +42,7 @@ namespace Infrastructure
                 Debug.LogError($"{name}: field(-s) is null!");
 
             var input = new InputHandler(_joystickMovement);
+            var itemHelper = new ItemHelper();
 
             var player = Instantiate(_playerPrefab, _playerSpawnPoint.position, Quaternion.identity);
             var playerMovement = player.GetComponent<PlayerMovement>();
