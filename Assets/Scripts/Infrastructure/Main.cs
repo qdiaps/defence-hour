@@ -16,6 +16,7 @@ namespace Infrastructure
     {
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private Transform _playerSpawnPoint;
+        [SerializeField] private Transform _peacefulSpawnerPoint;
         [SerializeField] private CinemachineCamera _camera;
         [Header("Scripts")]
         [SerializeField] private FixedJoystick _joystickMovement;
@@ -58,7 +59,8 @@ namespace Infrastructure
             _pauseHandler.AddComponent(playerMovement);
 
             _peacefulRemover.Construct(_peacefulSpawner);
-            _peacefulSpawner.Construct(player.transform, _pauseHandler, _peacefulSpawnerConfig, _peacefulRemover, lootSpawner);
+            _peacefulSpawner.Construct(_peacefulSpawnerPoint, _pauseHandler, _peacefulSpawnerConfig, 
+                _peacefulRemover, lootSpawner);
         }
     }
 }

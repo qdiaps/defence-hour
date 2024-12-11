@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4665424fb0d4b310bac820a9563e3280, type: 3}
   m_Name: PeacefulSpawnerConfig
   m_EditorClassIdentifier: 
-  MinSpawnRadius: 20
-  MaxSpawnRadius: 50
+  MinSpawnRadius: 5
+  MaxSpawnRadius: 100
   MinTimeSpawn: 4
   MaxTimeSpawn: 7
-  MaxActivePleaceful: 20
+  MaxActivePleaceful: 30
   Peacefuls:
   - Prefab: {fileID: 2479941934912042417, guid: 026196b6edc5fbe49bfd80812b29301b, type: 3}
     SpawnChance: 50

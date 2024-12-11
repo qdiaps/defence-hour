@@ -10,7 +10,7 @@ namespace Core.Beings.Peaceful
 {
     public class PeacefulSpawner : MonoBehaviour
     {
-        private Transform _player;
+        private Transform _point;
         private PauseHandler _pause;
         private PeacefulSpawnerConfig _config;
         private PeacefulRemover _remover;
@@ -18,10 +18,10 @@ namespace Core.Beings.Peaceful
         private List<GameObject> _peacefuls = new List<GameObject>();
         private float[] _peacefulChances;
 
-        public void Construct(Transform player, PauseHandler pause,
+        public void Construct(Transform point, PauseHandler pause,
             PeacefulSpawnerConfig config, PeacefulRemover remover, LootSpawner loot)
         {
-            _player = player;
+            _point = point;
             _pause = pause;
             _config = config;
             _remover = remover;
@@ -53,7 +53,7 @@ namespace Core.Beings.Peaceful
                 if (_pause.IsPause || _peacefuls.Count >= _config.MaxActivePleaceful)
                     continue;
                 Vector2 position = RandomUtility.GetRandomPositionInCirle(
-                    _player, _config.MinSpawnRadius, _config.MaxSpawnRadius);
+                    _point, _config.MinSpawnRadius, _config.MaxSpawnRadius);
                 int index = RandomUtility.GetRandomIndexFromListChances(_peacefulChances);
                 if (index == -1)
                 {
