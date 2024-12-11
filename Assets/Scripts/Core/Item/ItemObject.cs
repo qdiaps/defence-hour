@@ -7,9 +7,9 @@ namespace Core.Item
     {
         public int ID { get; private set; }
 
-        [SerializeField] private ItemConfig _config;
+        [field: SerializeField] public ItemConfig Config { get; private set; }
 
         private void Awake() =>
-            ID = _config.Id;
+            ID = Config.Id;
     }
 }

@@ -26,6 +26,11 @@ MonoBehaviour:
     Speed: 3.5
     PulseScale: 1.1
     PulseDuration: 0.2
+    Loot:
+    - Prefab: {fileID: 7991211834212596661, guid: 165543f5b61d2563ead7ad421ffa8dbe, type: 3}
+      DropChance: 100
+      MinQuantity: 2
+      MaxQuantity: 4
   - Prefab: {fileID: 2479941934912042417, guid: 289dba6c24136c2deadfe194fb8fd510, type: 3}
     SpawnChance: 30
     DownTime: 4
@@ -34,6 +39,15 @@ MonoBehaviour:
     Speed: 3
     PulseScale: 1.08
     PulseDuration: 0.3
+    Loot:
+    - Prefab: {fileID: 4471470757937678817, guid: 58cdf992a1bfce13a88417869da62cf8, type: 3}
+      DropChance: 90
+      MinQuantity: 1
+      MaxQuantity: 3
+    - Prefab: {fileID: 4516219748623970470, guid: 449798c9f26013f2f87c34ff19bab8c2, type: 3}
+      DropChance: 10
+      MinQuantity: 1
+      MaxQuantity: 1
   - Prefab: {fileID: 2479941934912042417, guid: efc1b3921f866c1209050563b4aa6ba6, type: 3}
     SpawnChance: 20
     DownTime: 6
@@ -42,4 +56,13 @@ MonoBehaviour:
     Speed: 2.5
     PulseScale: 1.06
     PulseDuration: 0.4
+    Loot:
+    - Prefab: {fileID: 4516219748623970470, guid: 449798c9f26013f2f87c34ff19bab8c2, type: 3}
+      DropChance: 70
+      MinQuantity: 1
+      MaxQuantity: 2
+    - Prefab: {fileID: 8538378375238116461, guid: 900747aaef88c050da6112c751170a76, type: 3}
+      DropChance: 30
+      MinQuantity: 1
+      MaxQuantity: 1
   PeacefulPrefabsCount: 3

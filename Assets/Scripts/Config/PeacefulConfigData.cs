@@ -7,7 +7,7 @@ namespace Config
     public class PeacefulConfigData
     {
         public GameObject Prefab;
-        public float SpawnChance;
+        [Range(0, 100)] public float SpawnChance;
         public float DownTime;
         public float StartHealth;
         [Header("Movement")]
@@ -15,5 +15,7 @@ namespace Config
         public float Speed;
         public float PulseScale;
         public float PulseDuration;
+        [Header("Loot")]
+        public LootConfig[] Loot;
     }
 }

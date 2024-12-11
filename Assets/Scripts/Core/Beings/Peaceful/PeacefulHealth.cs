@@ -1,5 +1,6 @@
 using UnityEngine;
 using Core.Player;
+using Core.Loot;
 using Config;
 using DG.Tweening;
 
@@ -11,6 +12,7 @@ namespace Core.Beings.Peaceful
 
         private PeacefulRemover _remover;
         private PeacefulMovement _movement;
+        private LootSpawner _loot;
         private float _currentHealth;
 
         private PeacefulConfigData _config;
@@ -18,10 +20,12 @@ namespace Core.Beings.Peaceful
         private void Awake() =>
             _movement = GetComponent<PeacefulMovement>();
 
-        public void Construct(PeacefulConfigData config, PeacefulRemover remover)
+        public void Construct(PeacefulConfigData config, PeacefulRemover remover,
+            LootSpawner loot)
         {
             _config = config;
             _remover = remover;
+            _loot = loot;
             _currentHealth = _config.StartHealth;
         }
 
@@ -35,6 +39,7 @@ namespace Core.Beings.Peaceful
                 if (_currentHealth <= 0)
                 {
                     _movement.StopAllMovement();
+                    _loot.Spawn(_config.Loot, transform);
                     Dead();
                     return;
                 }

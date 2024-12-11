@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Config;
 using Core.Services.PauseService;
+using Core.Loot;
 using Extensions;
 
 namespace Core.Beings.Peaceful
@@ -13,16 +14,18 @@ namespace Core.Beings.Peaceful
         private PauseHandler _pause;
         private PeacefulSpawnerConfig _config;
         private PeacefulRemover _remover;
+        private LootSpawner _loot;
         private List<GameObject> _peacefuls = new List<GameObject>();
         private float[] _peacefulChances;
 
         public void Construct(Transform player, PauseHandler pause,
-            PeacefulSpawnerConfig config, PeacefulRemover remover)
+            PeacefulSpawnerConfig config, PeacefulRemover remover, LootSpawner loot)
         {
             _player = player;
             _pause = pause;
             _config = config;
             _remover = remover;
+            _loot = loot;
             FillPeacefulChances();
             StartCoroutine(Generate());
         }
@@ -67,7 +70,7 @@ namespace Core.Beings.Peaceful
         private void Resolve(GameObject prefab, PeacefulConfigData config)
         {
             prefab.GetComponentInChildren<PeacefulMovement>().Construct(config);
-            prefab.GetComponentInChildren<PeacefulHealth>().Construct(config, _remover);
+            prefab.GetComponentInChildren<PeacefulHealth>().Construct(config, _remover, _loot);
         }
     }
 }

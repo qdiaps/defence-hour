@@ -3,6 +3,7 @@ using Unity.Cinemachine;
 using Config;
 using Core.Beings.Peaceful;
 using Core.Item;
+using Core.Loot;
 using Core.Player;
 using Core.Services.InputService;
 using Core.Services.PauseService;
@@ -43,6 +44,7 @@ namespace Infrastructure
 
             var input = new InputHandler(_joystickMovement);
             var itemHelper = new ItemHelper();
+            var lootSpawner = new LootSpawner();
 
             var player = Instantiate(_playerPrefab, _playerSpawnPoint.position, Quaternion.identity);
             var playerMovement = player.GetComponent<PlayerMovement>();
@@ -56,7 +58,7 @@ namespace Infrastructure
             _pauseHandler.AddComponent(playerMovement);
 
             _peacefulRemover.Construct(_peacefulSpawner);
-            _peacefulSpawner.Construct(player.transform, _pauseHandler, _peacefulSpawnerConfig, _peacefulRemover);
+            _peacefulSpawner.Construct(player.transform, _pauseHandler, _peacefulSpawnerConfig, _peacefulRemover, lootSpawner);
         }
     }
 }
