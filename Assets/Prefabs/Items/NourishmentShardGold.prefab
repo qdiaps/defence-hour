@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -6
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 138fd86d8eae58ec0886f0715d4d9589, type: 3}
   m_Color: {r: 1, g: 0.84313726, b: 0, a: 0.5882353}
   m_FlipX: 0
@@ -97,6 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6817777224863336975}
   - component: {fileID: 6152477786333964089}
+  - component: {fileID: 4975737000236379707}
   - component: {fileID: 5221180823891808301}
   - component: {fileID: 4157439687721531150}
   - component: {fileID: 2573049471672122861}
@@ -167,7 +168,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -5
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b65957ad01890dc90b8421b439ff520a, type: 3}
   m_Color: {r: 0.7176471, g: 0.2901961, b: 0.20392157, a: 1}
   m_FlipX: 0
@@ -179,6 +180,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!210 &4975737000236379707
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516219748623970470}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -5
+  m_SortAtRoot: 1
 --- !u!58 &5221180823891808301
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -263,6 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fe3b651d127dc5668228c396060ac26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Count: 1
   <Config>k__BackingField: {fileID: 11400000, guid: 66f7384b96318fe06b26cf31e771625c, type: 2}
 --- !u!50 &-3083552793426404453
 Rigidbody2D:

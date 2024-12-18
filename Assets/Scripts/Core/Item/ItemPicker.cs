@@ -1,6 +1,6 @@
 using UnityEngine;
 using Core.Player;
-using Config;
+using Core.Inventory;
 
 namespace Core.Item
 {
@@ -9,6 +9,7 @@ namespace Core.Item
         [SerializeField] private LayerMask _itemLayer;
 
         private PlayerStatsHandler _stats;
+        private InventoryHandler _inventory;
 
         private void Awake() =>
             _stats = GetComponent<PlayerStatsHandler>();
@@ -17,13 +18,17 @@ namespace Core.Item
         {
             if (collider.TryGetComponent<ItemObject>(out var item))
             {
-                var config = item.Config;
-                if (config.IsUsable && config.UsageEffectType == ItemConsumableType.Satiety)
+                if (_inventory.TryAddItem(out int remnant, item.ID, item.Count))
                 {
-                    _stats.IncreaseSatiety(config.UsageEffectCount);
-                    Destroy(collider.gameObject);
+                    if (remnant == 0)
+                        Destroy(collider.gameObject);
+                    else
+                        item.Count = remnant;
                 }
             }
         }
+
+        public void Construct(InventoryHandler inventory) =>
+            _inventory = inventory;
     }
 }

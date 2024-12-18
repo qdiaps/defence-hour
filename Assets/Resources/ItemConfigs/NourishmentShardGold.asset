@@ -18,7 +18,7 @@ MonoBehaviour:
     \u0438 \u043D\u0435\u043C\u043D\u043E\u0433\u043E \u0445\u043F"
   Rarity: 3
   Prefab: {fileID: 4516219748623970470, guid: 449798c9f26013f2f87c34ff19bab8c2, type: 3}
-  Icon: {fileID: 0}
+  Inv_Prefab: {fileID: 8232291261649559194, guid: cd1de70a5ce4f4f0787bc488fb58e37e, type: 3}
   IsStackable: 1
   StackLimit: 99
   IsUsable: 1

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Config
 {
@@ -14,7 +13,7 @@ namespace Config
         
         [Header("Visual")]
         public GameObject Prefab;
-        public Image Icon;
+        public GameObject Inv_Prefab;
         
         [Header("Stack")]
         [HideInInspector] public bool IsStackable;
